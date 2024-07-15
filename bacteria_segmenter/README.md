@@ -22,7 +22,6 @@ Our goal is to construct a model that can efficiently segment bacteria in cryo-E
   - Train a classifier algorithm or decision tree algorithm on the resulting data, using the manual segmentations we've been developing.
   
 
-
 ## Notes on preprocessing
 It would be good to make the parameters of the filter(s) depend on the histogram characteristics of the tomogram, or at least perform a grid search over the parameters.
 
@@ -69,6 +68,8 @@ I have not thoroughly studied this aspect of the project. My understanding of al
 
 (We could also try a neural network, I suppose. But that should not be strictly necessary!)
 
+## Other notes
+Many of these processing steps require the computation of the image's gradient. If we could do that only once, this whole process would be even faster.
 
 # Papers
 1. [Supervoxel-Based Segmentation of Mitochondria in EM Image Stacks With Learned Shape Features](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6044718) is the primary inspiration for this work.
