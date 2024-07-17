@@ -1,16 +1,18 @@
 #!/bin/bash
 
-#SBATCH --time=1:00:00 # walltime
+#SBATCH --time=00:02:00 # walltime
 
 #SBATCH --ntasks=1 # number of processor cores (i.e. tasks)
 
 #SBATCH --nodes=1 # number of nodes
 
-#SBATCH --gpus=2
+#SBATCH --gpus=a100:1
 
 #SBATCH --export=NONE
 
-#SBATCH --mem 12G
+#SBATCH --mem 5G
+
+#SBATCH --qos=standby
 
 
 # Set the max number of threads to use for programs using OpenMP. Should be <= ppn. Does nothing if the program doesn't use OpenMP.
@@ -21,6 +23,7 @@ export LD_LIBRARY_PATH=/apps/spack/root/opt/spack/linux-rhel9-haswell/gcc-13.2.0
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE 
 
+module load spack
 module load miniconda3
 module load cuda
 
@@ -50,4 +53,15 @@ pytom_match_template.py \
  --particle-diameter 85 \
  --tilt-angles -60 60 \
  --random-phase \
- -g 0 1
+ -g 0
+
+pytom_estimate_roc.py \
+ -j /home/ejl62/template_matching_shared/pytom/flagellar_motor_tm/results/flag_3_full_job.json \
+ -n 5 \
+ -r 60 \
+ --crop-plot  > /home/ejl62/template_matching_shared/pytom/flagellar_motor_tm/results/flag_3_full_roc.log
+
+pytom_extract_candidates.py \
+ -j /home/ejl62/template_matching_shared/pytom/flagellar_motor_tm/results/flag_3_full_job.json \
+ -n 5 \
+ -r 60
